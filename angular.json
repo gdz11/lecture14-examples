@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/lecture14-examples",
+            "outputPath": "dist/lecture14-examples/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -97,6 +97,61 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/lecture14-examples/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "lecture14-examples:build:development",
+              "serverTarget": "lecture14-examples:server:development"
+            },
+            "production": {
+              "browserTarget": "lecture14-examples:build:production",
+              "serverTarget": "lecture14-examples:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "lecture14-examples:build:production",
+              "serverTarget": "lecture14-examples:server:production"
+            },
+            "development": {
+              "browserTarget": "lecture14-examples:build:development",
+              "serverTarget": "lecture14-examples:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
